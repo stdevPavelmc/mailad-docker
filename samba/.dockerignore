@@ -1,0 +1,4 @@
+etc
+var
+docker-compose.yml
+build.sh

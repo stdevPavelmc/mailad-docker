@@ -1,0 +1,32 @@
+version: '3.2'
+services:
+  samba:
+    image: mailad/samba
+    build: ./
+    privileged: true
+    domainname: mailad.cu
+    hostname: dc
+    environment:
+      SAMBA_DC_DOMAIN: mailad.cu
+      SAMBA_DC_ADMIN_PASSWD: Passw0rd_.
+      SAMBA_LINK_USER: linux
+      SAMBA_LINK_USER_PASSWORD: Pass123.
+      SAMBA_MAILADMIN_USER: pavel # Email is user@domain
+      SAMBA_MAILADMIN_USER_PASSWD: P4v0ro5o
+    ports:
+      - "53"
+      - "53/udp"
+      - "88"
+      - "88/udp"
+      - "135"
+      - "139"
+      - "389"
+      - "389/udp"
+      - "445"
+      - "464"
+      - "464/udp"
+      - "636"
+      - "3268-3269"
+    volumes:
+      - ../ldata/samba_var:/var/lib/samba
+      - ../ldata/samba_etc:/etc/samba

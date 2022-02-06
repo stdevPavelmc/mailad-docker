@@ -1,0 +1,23 @@
+---
+version: '3.8'
+services:
+  mda:
+    image: mailad/mda
+    build: .
+    environment:
+      DOVECOT_DOMAIN: "mailad.cu"
+      DOVECOT_DEFAULT_MAILBOX_SIZE: "200M"
+      DOVECOT_LDAP_URI: "ldaps://dc:636"
+      DOVECOT_LDAP_SEARCH_BASE: "ou=MAILAD,dc=mailad,dc=cu"
+      DOVECOT_LDAP_BINDUSER: "cn=linux,cn=Users,dc=mailad,dc=cu"
+      DOVECOT_LDAP_BINDUSER_PASSWD: "P4ssw0rd"
+    ports:
+      - "110"
+      - "143"
+      - "993"
+      - "995"
+      - "4190"
+      - "12345"
+    volumes:
+      - ../ldata/vmail:/home/vmail
+      - ../ldata/certs:/certs

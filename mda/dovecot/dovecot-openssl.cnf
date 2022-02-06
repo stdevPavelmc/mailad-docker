@@ -1,0 +1,31 @@
+[ req ]
+default_bits = 2048
+encrypt_key = yes
+distinguished_name = req_dn
+x509_extensions = cert_type
+prompt = no
+
+[ req_dn ]
+# country (2 letter code)
+C=CU
+
+# State or Province Name (full name)
+ST=Camaguey
+
+# Locality Name (eg. city)
+L=Camagüey
+
+# Organization (eg. company)
+O=Mailad
+
+# Organizational Unit Name (eg. section)
+OU=IT System administration
+
+# Common Name (*.example.com is also possible)
+CN=_DOMAIN_
+
+# E-mail contact
+emailAddress=postmaster@_DOMAIN_
+
+[ cert_type ]
+nsCertType = server
