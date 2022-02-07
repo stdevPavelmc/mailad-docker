@@ -69,9 +69,9 @@ smtpd_sasl_security_options = noanonymous
 broken_sasl_auth_clients = yes
 
 # TLS
-smtpd_tls_cert_file = /etc/ssl/certs/mail.crt
-smtpd_tls_key_file = /etc/ssl/private/mail.key
-smtpd_tls_CAfile = /etc/ssl/certs/cacert.pem
+smtpd_tls_cert_file = /certs/mail.crt
+smtpd_tls_key_file = /certs/mail.key
+smtpd_tls_CAfile = 
 smtpd_use_tls = yes
 smtpd_sasl_tls_security_options = $smtpd_sasl_security_options
 smtpd_tls_auth_only = yes
@@ -85,7 +85,7 @@ smtpd_tls_protocols = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1
 smtp_tls_mandatory_protocols = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1
 smtp_tls_protocols = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1
 smtpd_tls_exclude_ciphers = aNULL, eNULL, EXPORT, DES, RC4, MD5, PSK, aECDH, EDH-DSS-DES-CBC3-SHA, EDH-RSA-DES-CBC3-SHA, KRB5-DES, CBC3-SHA
-smtpd_tls_dh1024_param_file = /etc/ssl/dh/RSA2048.pem
+smtpd_tls_dh1024_param_file = /certs/RSA2048.pem
 
 ###### EHLO RESTRICTION
 # Requerir ehlo/helo
