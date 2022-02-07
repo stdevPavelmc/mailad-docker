@@ -1,3 +1,3 @@
 # Mail Transport Agent (MTA) service for mailad
 
-TODO: document.
+TODO: sleep depravation kicking, will document it later...

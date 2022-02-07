@@ -13,7 +13,6 @@ services:
       SAMBA_DC_ADMIN_PASSWD: "Passw0rd_."
       SAMBA_LINK_USER: linux
       SAMBA_LINK_USER_PASSWORD: "P4ssw0rd."
-      SAMBA_LDAP_BASE_OU: MAILAD
       SAMBA_MAILADMIN_USER: pavel # Email is user@domain
       SAMBA_MAILADMIN_USER_PASSWD: "P4v0ro5o"
     ports:
