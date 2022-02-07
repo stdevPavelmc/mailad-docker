@@ -11,6 +11,7 @@ RUN apt-get update && \
     dovecot-imapd \
     dovecot-ldap \
     dovecot-sieve \
+    dovecot-lmtpd \
     dovecot-managesieved
 
 # TODO: REMOVE on PRODUCTION

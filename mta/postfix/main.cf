@@ -247,7 +247,7 @@ virtual_mailbox_base = /home/vmail
 virtual_minimum_uid = 100
 virtual_uid_maps = static:5000
 virtual_gid_maps = static:5000
-virtual_transport = inet:mda:24
+virtual_transport = lmtp:inet:mda:24
 
 # para que se entreguen a dovecot como transport uno a uno
 dovecot_destination_recipient_limit = 1
