@@ -270,3 +270,5 @@ compatibility_level = 2
 # plantillas para los reportes en espannol, tiio esto es la oostia, rediez!
 bounce_template_file = /etc/postfix/bounce.cf
 
+# docker, logging to stdout, see also postlog on master.cf
+maillog_file = /dev/stdout
