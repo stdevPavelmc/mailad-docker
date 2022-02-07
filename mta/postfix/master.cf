@@ -136,7 +136,7 @@ policy-spf unix    -       n       n       -       0     spawn
 #dfilt     unix    -       n       n       -       -       pipe
 #    flags=Rq user=filter argv=/etc/postfix/disclaimer -f ${sender} -- ${recipient}
 
-# docker: allow to log to stdout
+# docker: allow to log to stdout, see also maillog_file in master.cf
 postlog   unix-dgram n  -       n       -       1       postlogd
 
 # Amavis link
