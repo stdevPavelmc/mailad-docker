@@ -202,7 +202,7 @@ smtpd_sender_restrictions =
 # Restricciones de destinatarios
 smtpd_recipient_restrictions =
     # politicas de buzón de correos (quota devecot)
-    check_policy_service inet:127.0.0.1:12340
+    check_policy_service inet:mda:12340
 
     # check spf settings
     check_policy_service unix:private/policy-spf
