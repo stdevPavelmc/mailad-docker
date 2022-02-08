@@ -17,6 +17,7 @@ See the sample `docker-compose.yml` file, it has almost all you need, but I will
 
 The AD-DC LDAP structure will have the structure stated on the [original document](https://github.com/stdevPavelmc/mailad/blob/master/AD_Requirements.md):
 
+- **Do not change the container name from 'dc'!**
 - You will have a OU to hold the user's data
 - All users with mail *must be on or below that OU*
 - In this docker samba implementation the name of the OU is the first part of the domain in uppercase, like this:

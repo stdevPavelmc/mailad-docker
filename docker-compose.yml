@@ -63,7 +63,7 @@ services:
     domainname: mailad.cu
     hostname: mta
     environment:
-      # POSTFIX_DEFAULT_MAILBOX_SIZE: 2264924 # bytes ~1024 * 1024 * MB * 1.08
+      # POSTFIX_MAX_MESSAGESIZE: 2264924 # bytes ~1024 * 1024 * MB * 1.08
       # POSTFIX_REALY: 
       # POSTFIX_ALWAYS_BCC: piler@mailad.cu
       # POSTFIX_NATIONAL: cu
