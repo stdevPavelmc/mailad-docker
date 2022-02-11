@@ -76,6 +76,7 @@ services:
       POSTFIX_LDAP_SEARCH_BASE: "OU=MAILAD,DC=mailad,DC=cu"
       POSTFIX_LDAP_BINDUSER: "CN=linux,CN=Users,DC=mailad,DC=cu"
       POSTFIX_LDAP_BINDUSER_PASSWD: "P4ssw0rd."
+      POSTFIX_AMAVIS: amavis
     ports:
       - "25:25"
       - "465:465"
@@ -103,6 +104,24 @@ services:
     volumes:
       - clamav:/var/lib/clamav
 
+  amavis:
+    image: mailad/amavis
+    build: ./amavis/
+    domainname: mailad.cu
+    hostname: amavis
+    healthcheck:
+        test: ["CMD", "/check.sh"]
+        interval: 60s
+        retries: 3
+        start_period: 120s
+    environment:
+      AMAVIS_MTA: mta
+    ports:
+      - "10024:10024"
+    volumes:
+      - amavis:/var/lib/amavis
+      - spamassassin:/var/lib/spamassassin
+
 volumes:
   samba_var:
   samba_etc:
@@ -110,3 +129,5 @@ volumes:
   vmail:
   spool:
   clamav:
+  amavis:
+  spamassassin:

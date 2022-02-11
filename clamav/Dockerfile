@@ -32,3 +32,4 @@ EXPOSE 3310
 USER clamav
 
 CMD ["/docker-entrypoint.sh"]
+HEALTHCHECK CMD ["/check.sh"]

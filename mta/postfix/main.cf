@@ -56,7 +56,7 @@ mailbox_size_limit = 0
 # filtro de contenido de amavisd
 # OJO en los upgrades a amavis le encanta resetar esto y poner
 # [localhost], debes cambiarlo a mano y poner [127.0.0.1] si usas LXC/Docker
-#content_filter = smtp-amavis:[127.0.0.1]:10024
+content_filter = smtp-amavis:_AMAVIS_:10024
 
 # SASL con dovecot
 smtpd_sasl_type = dovecot

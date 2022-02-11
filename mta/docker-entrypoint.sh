@@ -37,6 +37,7 @@ if [ ! -f /etc/postfix/configured ]; then
     echo "ALWAYSBCC=${POSTFIX_ALWAYS_BCC}" >> "${CFILE}"
     echo "SYSADMINS=${SYSADMINS}" >> "${CFILE}"
     echo "HOSTAD=${HOSTAD}" >> "${CFILE}"
+    echo "AMAVIS=${POSTFIX_AMAVIS}" >> "${CFILE}"
 
     if [ "${POSTFIX_EVERYONE}" ] ; then
         echo "EVERYONE=${POSTFIX_EVERYONE}" >> "${CFILE}"  

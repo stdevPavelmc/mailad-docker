@@ -27,7 +27,7 @@ DB_DIR=${DB_DIR:-'/var/lib/clamav'}
 MAIN_FILE="$DB_DIR/main.cvd"
 
 # start of the magic
-/usr/bin/freshclam -d &
+freshclam -d &
 echo -e "waiting for clam to update..."
 
 until [ -e ${MAIN_FILE} ] ; do
@@ -35,7 +35,7 @@ until [ -e ${MAIN_FILE} ] ; do
 done
 
 echo -e "starting clamd..."
-/usr/bin/clamd &
+clamd &
 
 # recognize PIDs
 pidlist=$(jobs -p)
