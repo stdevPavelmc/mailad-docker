@@ -18,7 +18,11 @@ This is a note for developers about the recommended tags to keep track of the ch
 Dates must be YEAR-MONTH-DAY
 -->
 
-## 2020-02-07 --
+## 2020-02-10
+
+- Added: clamav folder and integration in prevision of amavis image
+
+## 2020-02-07
 
 - Changed: Completed the first version of the documentation.
 

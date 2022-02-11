@@ -1,0 +1,21 @@
+---
+version: "3.8"
+services:
+  clamav:
+    image: mailad/clamav
+    build: .
+    domainname: mailad.cu
+    hostname: clamav
+    healthcheck:
+        test: ["CMD", "./check.sh"]
+        interval: 60s
+        retries: 3
+        start_period: 120s
+    environment:
+      # CLAMAV_PROXY_SERVER: 10.1.2.3
+      # CLAMAV_PROXY_PORT: 3128
+      CLAMAV_ALTERNATE_MIRROR: clamav.ddns.net
+    ports:
+      - "3310:3310"
+    volumes:
+      - ../ldata/clamav:/var/lib/clamav
