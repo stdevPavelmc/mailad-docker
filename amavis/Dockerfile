@@ -17,11 +17,12 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+RUN mkdir -p {/var/lib/amavis/tmp,/var/lib/amavis/db} && \
+    chown -R amavis:amavis /var/lib/amavis
+
 COPY amavis/ /etc/amavis/
 COPY check.sh /
 COPY docker-entrypoint.sh /
-
-RUN sa-update -vD
 
 RUN chmod +x /docker-entrypoint.sh /check.sh
 

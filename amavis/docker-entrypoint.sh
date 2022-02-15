@@ -9,19 +9,33 @@ fi
 
 # Replace the MTA var
 echo "Setting MTA in proper files..."
-find "/etc/amavis/" -type f -exec sed -i s/"\_MTA\_"/"${AMVIS_MTA}"/g {} \; -print
+find "/etc/amavis/" -type f -exec sed -i s/"\_MTA\_"/"${AMAVIS_MTA}"/g {} \; -print
 
-# sa updates as a task
-(
-while true; do
-	sa-update -v
-	sleep 24h
-done
-) &
+SPAM=YES
+# spamassasin disabled
+if [ ! -z "${AMAVIS_SPAMASSASSIN_DISABLED}" -a "${AMAVIS_SPAMASSASSIN_DISABLED}" == "1" ] ; then
+    # disable spamassassin
+    sed -i s/"@bypass_spam_checks_maps"/"#@bypass_spam_checks_maps"/ /etc/amavis/conf.d/15-content_filter_mode
+    SPAM=NO
+    echo "SpamAssassin disabled on request!!!"
+fi
+
+# AV disabled
+if [ ! -z "${AMAVIS_AV_DISABLED}" -a "${AMAVIS_AV_DISABLED}" == "1" ] ; then
+    # disable av
+    sed -i s/"@bypass_virus_checks_maps"/"#@bypass_virus_checks_maps"/ /etc/amavis/conf.d/15-content_filter_mode
+    echo "AV disabled on request!!!"
+fi
+
+# set the ip of the mta
+MTA_IP=`perl -MSocket -E "say inet_ntoa(inet_aton('${AMAVIS_MTA}'))"`
+echo "MTA IP is: ${MTA_IP}"
+echo ${MTA_IP} > /etc/amavis/mta 
 
 # starting amavis
 echo "Starting amavis"
-amavisd-new foreground &
+rm /var/run/amavis/amavisd.pid 2> /dev/null
+/usr/sbin/amavisd-new -u amavis -g amavis -i docker debug #foreground # debug
 
 # recognize PIDs
 pidlist=$(jobs -p)

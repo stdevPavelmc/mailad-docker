@@ -13,8 +13,10 @@ services:
         start_period: 120s
     environment:
       AMAVIS_MTA: mta
+      AMAVIS_SPAMASSASSIN_DISABLED: 1
+      AMAVIS_AV_DISABLED: 1
     ports:
-      - "10024"
+      - "10024:10024"
     volumes:
       - ../ldata/amavis:/var/lib/amavis
       - ../ldata/spamassassin:/var/lib/spamassassin

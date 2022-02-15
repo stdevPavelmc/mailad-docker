@@ -8,8 +8,20 @@ use strict;
 # the directives you can use in this file
 #
 
-$notify_method  = "smtp:_MTA_:10025";
-$forward_method  = "smtp:_MTA_:10025";
+# pick the MTA ip address
+my $mta = '';
+chomp($mta = `cat /etc/amavis/mta`);
+
+$notify_method  = "smtp:[$mta]:10025";
+$forward_method  = "smtp:[$mta]:10025";
+
+# apply policy bank MTA
+$interface_policy{'10024'} = 'MTA';
+
+$policy_bank{'MTA'} = {
+  inet_acl => [qw( 127.0.0.1 [::1] 0.0.0.0/0 )],  # restrict access to these IP addresses
+  # auth_required_release => 0,  # don't require secret_id for amavisd-release
+};
 
 #------------ Do not modify anything below this line -------------
 1;  # ensure a defined return

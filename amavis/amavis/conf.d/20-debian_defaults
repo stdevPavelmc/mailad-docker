@@ -30,6 +30,7 @@ $syslog_priority = 'debug';  # switch to info to drop debug output, etc
 $enable_db = 1;              # enable use of BerkeleyDB/libdb (SNMP and nanny)
 $enable_global_cache = 1;    # enable use of libdb-based cache if $enable_db=1
 
+$inet_socket_bind = '0.0.0.0'; # listen on any interface ipv4
 $inet_socket_port = 10024;   # default listening socket
 
 $sa_spam_subject_tag = '***SPAM*** ';

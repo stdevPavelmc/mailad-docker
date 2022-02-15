@@ -12,7 +12,7 @@ use strict;
 # issue.  Refer to the amavisd-new documentation for more
 # information
 
-$unix_socketname = "/var/lib/amavis/amavisd.sock";
+#$unix_socketname = "/var/lib/amavis/amavisd.sock";
 
 $interface_policy{'SOCK'} = 'AM.PDP-SOCK';
 $policy_bank{'AM.PDP-SOCK'} = {
