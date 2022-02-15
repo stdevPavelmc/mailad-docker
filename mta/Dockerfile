@@ -6,20 +6,20 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && \
     apt-get install -y \
-    sed \
     postfix \
     postfix-pcre \
-    postfix-ldap
+    postfix-ldap \
+    bind9-host
 
 # TODO: REMOVE on PRODUCTION
-RUN apt-get install -y nano net-tools ldap-utils mailutils
+RUN apt-get install -y nano net-tools ldap-utils mailutils netcat-openbsd
 
 RUN mkdir /home/vmail && \
     chown -R 5000:5000 /home/vmail && \
     groupadd -g 5000 vmail && \
     useradd -d /home/vmail -g 5000 -u 5000 vmail
 
-ADD postfix/ /etc/postfix
+ADD postfix /etc/postfix
 RUN chmod +x /etc/postfix/scripts/*
 
 ADD docker-entrypoint.sh /docker-entrypoint.sh

@@ -1,7 +1,7 @@
 ---
-version: '3.8'
+version: '3.7'
 services:
- mta:
+  mta:
     image: mailad/mta
     build: .
     domainname: mailad.cu
@@ -24,6 +24,7 @@ services:
       - "25:25"
       - "465:465"
       - "587:587"
+      - "10025:10025"
     volumes:
       - ../ldata/vmail:/home/vmail
       - ../ldata/certs:/certs

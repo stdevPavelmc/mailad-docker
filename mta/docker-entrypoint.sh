@@ -37,11 +37,19 @@ if [ ! -f /etc/postfix/configured ]; then
     echo "ALWAYSBCC=${POSTFIX_ALWAYS_BCC}" >> "${CFILE}"
     echo "SYSADMINS=${SYSADMINS}" >> "${CFILE}"
     echo "HOSTAD=${HOSTAD}" >> "${CFILE}"
-    echo "AMAVIS=${POSTFIX_AMAVIS}" >> "${CFILE}"
+    AMAVIS_IP=`host ${POSTFIX_AMAVIS} | awk '/has address/ { print $4 }'`
+    echo "AMAVIS_IP=${AMAVIS_IP}" >> "${CFILE}"
+    OWN_IP=`ifconfig eth0 | grep inet | awk '{print $2}'`
+    echo "OWN_IP=${OWN_IP}" >> "${CFILE}"
 
     if [ "${POSTFIX_EVERYONE}" ] ; then
         echo "EVERYONE=${POSTFIX_EVERYONE}" >> "${CFILE}"  
         echo "$EVERYONE         everyone_list" >> /etc/postfix/aliases/everyone_list_check
+    fi
+
+    # disable DNSBL if not set
+    if [ -z "${POSTFIX_DNSBL}" ] ; then
+        sed -i s/"^.*dnsbl.*$"/''/g /etc/postfix/main.cf
     fi
 
     # config dump
@@ -66,8 +74,8 @@ if [ ! -f /etc/postfix/configured ]; then
     done
 
     # get the DC hostname from the ldap var
-    DC=`echo "${POSTFIX_LDAP_URI}" | cut -d "/" -f 3 | cut -d ":" -f 1 | tr [:lower:] [:upper:]`
-    echo "Using ${DC} as LDAP Server"
+    DC=`echo "${POSTFIX_LDAP_URI}" | cut -d "/" -f 3 | cut -d ":" -f 1 `
+    echo "Using ${DC}.${DOMAIN} as LDAP Server"
 
     echo "Get & Install of the samba ssl cert for the LDAP connections"
     echo | openssl s_client -connect ${DC}:636 2>&1 | sed --quiet '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > /etc/ssl/certs/samba.crt
@@ -77,6 +85,10 @@ if [ ! -f /etc/postfix/configured ]; then
     cat /etc/ldap/ldap.conf | grep -v TLS_CACERT > /tmp/1
     echo "TLS_CACERT /etc/ssl/certs/samba.crt" >> /tmp/1
     cat /tmp/1 > /etc/ldap/ldap.conf
+
+    # make postfix happy with premissions
+    find /etc/postfix -type d -exec chmod 0750 {} \;
+    find /etc/postfix -type f -exec chmod g-w,o-w {} \;
 
     # creation of the groups & aliases
     /etc/postfix/scripts/groups.sh
@@ -189,10 +201,10 @@ if [ "$1" = 'postfix' ]; then
 
     # check postfix is happy (also will fix some things)
     echo "postfix >> Checking Postfix Configuration"
-    postfix check
+    postfix -v check
 
     # start postfix in foreground
-    exec /usr/sbin/postfix start-fg
+    exec /usr/sbin/postfix -v start-fg
 fi
 
 exec "$@"

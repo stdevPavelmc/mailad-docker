@@ -30,7 +30,7 @@ myorigin = $myhostname
 relayhost = _RELAY_
 
 # mi red, por seguridad mi red soy yo y los servers de la DMZ
-mynetworks = 127.0.0.0/8
+mynetworks = 127.0.0.0/8, _AMAVIS_IP_
 
 # solo usaremos IPv4
 inet_protocols = ipv4
@@ -56,7 +56,7 @@ mailbox_size_limit = 0
 # filtro de contenido de amavisd
 # OJO en los upgrades a amavis le encanta resetar esto y poner
 # [localhost], debes cambiarlo a mano y poner [127.0.0.1] si usas LXC/Docker
-content_filter = smtp-amavis:_AMAVIS_:10024
+content_filter = smtp-amavis:_AMAVIS_IP_:10024
 
 # SASL con dovecot
 smtpd_sasl_type = dovecot
@@ -272,3 +272,4 @@ bounce_template_file = /etc/postfix/bounce.cf
 
 # docker, logging to stdout, see also postlog on master.cf
 maillog_file = /dev/stdout
+maillog_file_prefixes = /var, /dev, /tmp
