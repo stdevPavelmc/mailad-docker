@@ -1,5 +1,5 @@
 ---
-version: "3.8"
+version: "3.7"
 services:
 
   dc:
@@ -81,6 +81,7 @@ services:
       - "25:25"
       - "465:465"
       - "587:587"
+      - "10025:10025"
     volumes:
       - vmail:/home/vmail
       - certs:/certs
@@ -116,6 +117,8 @@ services:
         start_period: 120s
     environment:
       AMAVIS_MTA: mta
+      AMAVIS_SPAMASSASSIN_DISABLED: 1
+      AMAVIS_AV_DISABLED: 1
     ports:
       - "10024:10024"
     volumes:
