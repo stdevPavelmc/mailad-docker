@@ -4,6 +4,8 @@ LABEL maintainer="Pavel Milanes <pavelmc@gmail.com>"
 ENV REFRESHED_AT 2022-02-10
 ENV DEBIAN_FRONTEND noninteractive
 
+# TODO: REMOVE on PRODUCTION
+RUN apt-get update && apt-get install -y nano
 
 RUN apt-get update && \
     apt-get install -y \

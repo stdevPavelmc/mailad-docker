@@ -8,12 +8,8 @@ use strict;
 # the directives you can use in this file
 #
 
-# pick the MTA ip address
-my $mta = '';
-chomp($mta = `cat /etc/amavis/mta`);
-
-$notify_method  = "smtp:[$mta]:10025";
-$forward_method  = "smtp:[$mta]:10025";
+$notify_method  = "smtp:*:10025";
+$forward_method  = "smtp:*:10025";
 
 # apply policy bank MTA
 $interface_policy{'10024'} = 'MTA';
