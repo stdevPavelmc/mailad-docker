@@ -20,6 +20,7 @@ services:
       POSTFIX_LDAP_SEARCH_BASE: "OU=MAILAD,DC=mailad,DC=cu"
       POSTFIX_LDAP_BINDUSER: "CN=linux,CN=Users,DC=mailad,DC=cu"
       POSTFIX_LDAP_BINDUSER_PASSWD: "P4ssw0rd."
+      POSTFIX_AMAVIS: amavis
     ports:
       - "25:25"
       - "465:465"

@@ -9,7 +9,7 @@
 # service type  private unpriv  chroot  wakeup  maxproc command + args
 #               (yes)   (yes)   (no)    (never) (100)
 # ==========================================================================
-smtp      inet  n       -       y       -       -       smtpd -v
+smtp      inet  n       -       y       -       -       smtpd
 #smtp      inet  n       -       y       -       1       postscreen
 #smtpd     pass  -       -       y       -       -       smtpd
 #dnsblog   unix  -       -       y       -       0       dnsblog
@@ -156,8 +156,8 @@ _OWN_IP_:10025 inet n    -       -       -       -     smtpd
      -o smtpd_data_restrictions=reject_unauth_pipelining
      -o smtpd_end_of_data_restrictions=
      -o smtpd_restriction_classes=
-     -o mynetworks=127.0.0.0/8,_AMAVIS_IP_
-     -o smtpd_authorized_xforward_hosts=127.0.0.0/8,_AMAVIS_IP_
+     -o mynetworks=127.0.0.0/8,_AMAVISIP_
+     -o smtpd_authorized_xforward_hosts=127.0.0.0/8,_AMAVISIP_
      -o smtpd_error_sleep_time=0
      -o smtpd_soft_error_limit=1001
      -o smtpd_hard_error_limit=1000

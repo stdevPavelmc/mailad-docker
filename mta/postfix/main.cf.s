@@ -30,7 +30,7 @@ myorigin = $myhostname
 relayhost = _RELAY_
 
 # mi red, por seguridad mi red soy yo y los servers de la DMZ
-mynetworks = 127.0.0.0/8, _AMAVIS_IP_
+mynetworks = 127.0.0.0/8, _AMAVISIP_
 
 # solo usaremos IPv4
 inet_protocols = ipv4
@@ -55,8 +55,7 @@ mailbox_size_limit = 0
 
 # filtro de contenido de amavisd
 # OJO en los upgrades a amavis le encanta resetar esto y poner
-# [localhost], debes cambiarlo a mano y poner [127.0.0.1] si usas LXC/Docker
-content_filter = smtp-amavis:_AMAVIS_IP_:10024
+content_filter = smtp-amavis:_AMAVISHN_:10024
 
 # SASL con dovecot
 smtpd_sasl_type = dovecot

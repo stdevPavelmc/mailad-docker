@@ -4,15 +4,19 @@ LABEL maintainer="Pavel Milanes <pavelmc@gmail.com>"
 ENV REFRESHED_AT 2022-02-04
 ENV DEBIAN_FRONTEND noninteractive
 
+# TODO: REMOVE on PRODUCTION
+RUN apt-get update && apt-get install -y nano netcat-openbsd
+
 RUN apt-get update && \
     apt-get install -y \
-    postfix \
-    postfix-pcre \
-    postfix-ldap \
-    bind9-host
-
-# TODO: REMOVE on PRODUCTION
-RUN apt-get install -y nano net-tools ldap-utils mailutils netcat-openbsd
+        postfix \
+        postfix-pcre \
+        postfix-ldap \
+        ldap-utils \
+        net-tools \
+        bind9-host && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /home/vmail && \
     chown -R 5000:5000 /home/vmail && \
