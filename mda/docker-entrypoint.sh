@@ -9,7 +9,7 @@ if [ ! -f /etc/dovecot/configured ]; then
     echo "LDAPURI=${DOVECOT_LDAP_URI}" >> "${CFILE}"
     echo "LDAPSEARCHBASE=${DOVECOT_LDAP_SEARCH_BASE}" >> "${CFILE}"
     echo "LDAPBINDUSER=${DOVECOT_LDAP_BINDUSER}" >> "${CFILE}"
-    echo "LDAPBINDPASSWD=${DOVECOT_LDAP_BINDUSER_PASSWD}" >> "${CFILE}"
+    echo "LDAPBINDPASSWD=\"${DOVECOT_LDAP_BINDUSER_PASSWD}\"" >> "${CFILE}"
 
     # config dump
     echo "Config file dump:"
