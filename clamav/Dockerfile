@@ -1,4 +1,4 @@
-FROM ubuntu/focal
+FROM ubuntu:focal
 
 LABEL maintainer="Pavel Milanes <pavelmc@gmail.com>"
 ENV REFRESHED_AT 2022-02-10
