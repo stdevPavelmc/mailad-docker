@@ -1,20 +1,18 @@
----
 version: "3.7"
 services:
-
   dc:
     image: mailad/samba
     build: ./samba/
     privileged: true
-    domainname: mailad.cu
+    domainname: ${DOMAIN}
     hostname: dc
     environment:
-      SAMBA_DC_DOMAIN: mailad.cu
-      SAMBA_DC_ADMIN_PASSWD: "Passw0rd_."
-      SAMBA_LINK_USER: linux
-      SAMBA_LINK_USER_PASSWORD: "P4ssw0rd."
-      SAMBA_MAILADMIN_USER: pavel # Email is user@domain
-      SAMBA_MAILADMIN_USER_PASSWD: "P4v0ro5o"
+      SAMBA_DC_DOMAIN: ${DOMAIN}
+      SAMBA_DC_ADMIN_PASSWD: ${SAMBA_DC_ADMIN_PASSWD}
+      SAMBA_LINK_USER: ${SAMBA_LINK_USER}
+      SAMBA_LINK_USER_PASSWORD: ${SAMBA_LINK_USER_PASSWD}
+      SAMBA_MAILADMIN_USER: ${MAIL_ADMIN_USER} # Email is user@domain
+      SAMBA_MAILADMIN_USER_PASSWD: ${MAIL_ADMIN_PASSWORD}
     ports:
       - "53"
       - "53/udp"
@@ -36,15 +34,15 @@ services:
   mda:
     image: mailad/mda
     build: ./mda/
-    domainname: mailad.cu
+    domainname: ${DOMAIN}
     hostname: mda
     environment:
-      DOVECOT_DOMAIN: "mailad.cu"
+      DOVECOT_DOMAIN: "${DOVECOT_DOMAIN}"
       DOVECOT_DEFAULT_MAILBOX_SIZE: "200M"
       DOVECOT_LDAP_URI: "ldap://dc:389"
-      DOVECOT_LDAP_SEARCH_BASE: "OU=MAILAD,DC=mailad,DC=cu"
-      DOVECOT_LDAP_BINDUSER: "CN=linux,CN=Users,DC=mailad,DC=cu"
-      DOVECOT_LDAP_BINDUSER_PASSWD: "P4ssw0rd."
+      DOVECOT_LDAP_SEARCH_BASE: ${LDAP_USER_SEARCH_BASE}
+      DOVECOT_LDAP_BINDUSER: ${SAMBA_LINK_USER_CN}
+      DOVECOT_LDAP_BINDUSER_PASSWD: ${SAMBA_LINK_USER_PASSWD}
     ports:
       - "110:110"
       - "143:143"
@@ -60,22 +58,22 @@ services:
   mta:
     image: mailad/mta
     build: ./mta/
-    domainname: mailad.cu
+    domainname: ${DOMAIN}
     hostname: mta
     environment:
       # POSTFIX_MAX_MESSAGESIZE: 2264924 # bytes ~1024 * 1024 * MB * 1.08
       # POSTFIX_REALY: 
-      # POSTFIX_ALWAYS_BCC: piler@mailad.cu
+      # POSTFIX_ALWAYS_BCC: piler@${DOMAIN}
       # POSTFIX_NATIONAL: cu
-      # POSTFIX_EVERYONE: todos@mailad.cu # if not explicit: disabled
+      # POSTFIX_EVERYONE: todos@${DOMAIN} # if not explicit: disabled
       # POSTFIX_SPF_ENABLE: True
       # POSTFIX_DNSBL: True
-      POSTFIX_DOMAIN: mailad.cu
-      POSTFIX_MAILADMIN: pavel@mailad.cu
+      POSTFIX_DOMAIN: ${DOMAIN}
+      POSTFIX_MAILADMIN: ${MAIL_ADMIN_USER}@${DOMAIN}
       POSTFIX_LDAP_URI: "ldap://dc:389"
-      POSTFIX_LDAP_SEARCH_BASE: "OU=MAILAD,DC=mailad,DC=cu"
-      POSTFIX_LDAP_BINDUSER: "CN=linux,CN=Users,DC=mailad,DC=cu"
-      POSTFIX_LDAP_BINDUSER_PASSWD: "P4ssw0rd."
+      POSTFIX_LDAP_SEARCH_BASE: ${LDAP_USER_SEARCH_BASE}
+      POSTFIX_LDAP_BINDUSER: ${SAMBA_LINK_USER_CN}
+      POSTFIX_LDAP_BINDUSER_PASSWD: ${SAMBA_LINK_USER_PASSWD}
       POSTFIX_AMAVIS: amavis
     ports:
       - "25:25"
@@ -89,7 +87,7 @@ services:
   clamav:
     image: mailad/clamav
     build: ./clamav/
-    domainname: mailad.cu
+    domainname: ${DOMAIN}
     hostname: clamav
     healthcheck:
         test: ["CMD", "./check.sh"]
@@ -108,7 +106,7 @@ services:
   amavis:
     image: mailad/amavis
     build: ./amavis/
-    domainname: mailad.cu
+    domainname: ${DOMAIN}
     hostname: amavis
     healthcheck:
         test: ["CMD", "/check.sh"]
