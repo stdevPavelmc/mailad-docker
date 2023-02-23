@@ -185,6 +185,17 @@ else
     echo "DHparam already present, skiping generation!"
 fi
 
+# Setup Let's Encript certs
+if [[ ! -z "${HOST_FQDN}" ]] && [[ -f "/certs/${HOST_FQDN}.crt" ]] && [[ -f "/certs/${HOST_FQDN}.key" ]>
+    echo "Setup Let's Encrypt certs..."
+    rm -f "/certs/mail.crt"
+    rm -f "/certs/mail.key"
+    rm -f "/certs/RSA2048.pem"
+    cp "/certs/${HOST_FQDN}.crt" "/certs/mail.crt"
+    cp "/certs/${HOST_FQDN}.key" "/certs/mail.key"
+    cp "/certs/${HOST_FQDN}.dhparam.pem" "/certs/RSA2048.pem"
+fi
+
 # generate a Self-Signed cert/key if not present already on the /cert volume
 if [ ! -f /certs/mail.crt -a ! -f /certs/mail.key ] ; then
     # no certs present.
