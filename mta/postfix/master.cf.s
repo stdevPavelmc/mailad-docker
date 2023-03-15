@@ -141,11 +141,14 @@ postlog   unix-dgram n  -       n       -       1       postlogd
 
 # Amavis link
 smtp-amavis unix    -       -       -       -       2     smtp
+     -o smtp_tls_security_level=may
      -o smtp_data_done_timeout=1200
      -o smtp_send_xforward_command=yes
      -o smtp_tls_note_starttls_offer=no
 
+
 _OWN_IP_:10025 inet n    -       -       -       -     smtpd
+     -o smtpd_tls_security_level=may
      -o content_filter=
      -o receive_override_options=no_unknown_recipient_checks,no_header_body_checks,no_milters
      -o smtpd_delay_reject=no
