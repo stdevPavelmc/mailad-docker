@@ -16,6 +16,7 @@ $interface_policy{'10024'} = 'MTA';
 
 $policy_bank{'MTA'} = {
   inet_acl => [qw( 127.0.0.1 [::1] 0.0.0.0/0 )],  # restrict access to these IP addresses
+  originating => 1,
   # auth_required_release => 0,  # don't require secret_id for amavisd-release
 };
 

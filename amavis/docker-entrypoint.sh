@@ -27,6 +27,34 @@ else
     echo "AV Disabled on request!!!"
 fi
 
+#if dkim signing enabled
+if [ ! -z "${AMAVIS_DKIM_SIGNING_DISABLED}" ] ; then
+  # check for DKIM domain configuration
+  if [[ ! -z "${AMAVIS_DKIM_DOMAIN}" ]] ; then
+    echo "Setup DKIM signing"
+    echo '$enable_dkim_signing = 1;' >> /etc/amavis/conf.d/22-dkim_signing
+    #Generate domain key
+    if [[ ! -f "/var/lib/amavis/dkim/${AMAVIS_DKIM_DOMAIN}.pem" ]] ; then
+        echo "DKIM key not present for domain ${AMAVIS_DKIM_DOMAIN} ...generating!!!"
+        mkdir -p /var/lib/amavis/dkim
+        /usr/sbin/amavisd-new genrsa /var/lib/amavis/dkim/${AMAVIS_DKIM_DOMAIN}.pem 1024
+        /usr/sbin/amavisd-new showkeys ${AMAVIS_DKIM_DOMAIN} | tee /var/lib/amavis/dkim/${AMAVIS_DKIM_DOMAIN}.dns.txt
+    else
+        echo "DKIM key alredy present for domain ${AMAVIS_DKIM_DOMAIN} ...skipping generation!!!"
+    fi
+    echo "dkim_key('${AMAVIS_DKIM_DOMAIN}', 'dkim', '/var/lib/amavis/dkim/${AMAVIS_DKIM_DOMAIN}.pem');" >> /etc/amavis/conf.d/22-dkim_signing
+    echo "@dkim_signature_options_bysender_maps = ({ '.' => { ttl => 30*24*3600, c => 'relaxed/simple' }});" >> /etc/amavis/conf.d/22-dkim_signing
+    /usr/sbin/amavisd-new showkeys ${AMAVIS_DKIM_DOMAIN} | tee /var/lib/amavis/dkim/${AMAVIS_DKIM_DOMAIN}.dns.txt
+    chown -R amavis:amavis /var/lib/amavis/dkim/${AMAVIS_DKIM_DOMAIN}.*
+    # ensure a defined end in the file
+    echo '1;' >> /etc/amavis/conf.d/22-dkim_signing
+  else
+      echo  "DKIM signing enabled, but domain was not provided, missing AMAVIS_DKIM_DOMAIN environment variable"
+  fi
+else
+    echo "DKIM signing disabled by default!!!"
+fi
+
 # ensure a defined end oin the file
 echo '1;' >> /etc/amavis/conf.d/15-content_filter_mode
 
