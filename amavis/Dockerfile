@@ -19,7 +19,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p {/var/lib/amavis/tmp,/var/lib/amavis/db} && \
+RUN mkdir -p {/var/lib/amavis/tmp, /var/lib/amavis/db, /var/lib/amavis/dkim} && \
     chown -R amavis:amavis /var/lib/amavis
 
 COPY amavis/ /etc/amavis/
