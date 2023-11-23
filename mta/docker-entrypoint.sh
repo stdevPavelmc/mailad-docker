@@ -129,8 +129,7 @@ if [ "${POSTFIX_EVERYONE}" ] ; then
     FILE=/etc/postfix/aliases/everyone_list_check
     LINE="$POSTFIX_EVERYONE         everyone_list"
 
-    ISTHERE=`cat ${FILE} | grep everyone_list`
-    if [ "${ISTHERE}" ] ; then
+    if grep -q everyone_list ${FILE}; then
         sed -i s/"^.*everyone_list.*$"/"${LINE}"/ ${FILE}
     else
         echo "{$LINE}" >> ${FILE}
